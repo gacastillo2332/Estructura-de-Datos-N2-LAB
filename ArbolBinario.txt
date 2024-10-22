@@ -1,0 +1,242 @@
+import java.io.*;
+
+/**
+ * 
+ */
+
+/**
+ * @author gacas
+ *
+ */
+class NodoArbol {
+ private int dato;
+ //private String nombre;
+ public NodoArbol hijoIzquierdo, hijoDerecho; // cambiarlo a private
+ 
+ public void addNodoArbol(int d) {//, String nom
+	 dato=d;
+	 //nombre=nom;
+	 hijoDerecho=null;
+	 hijoIzquierdo=null;
+}
+ 
+/* public String toString() {
+	 return(nombre + "Su Dato es: "+dato);
+ }*/
+ 
+
+ public int traerDatoN() {
+	 return(dato);
+ }
+ /*
+ public String traerNombreN() {
+	 return(nombre);
+ }
+*/
+}
+
+class ArbolBin {
+	private NodoArbol raiz;
+	public ArbolBin() {
+		raiz=null;
+	}
+	//Metodo para insertar un nodo en el arbol
+	public void agregarNodo(int d ) {//, String nom
+		NodoArbol nuevo = new NodoArbol();
+		nuevo.addNodoArbol(d);//, nom
+		
+		if(raiz==null) {
+			raiz=nuevo;
+		}else {
+			NodoArbol auxiliar=raiz;
+			NodoArbol padre;
+			
+			while(true) {
+				padre=auxiliar;
+				if(d<auxiliar.traerDatoN()) {
+					auxiliar=auxiliar.hijoIzquierdo; 
+					if(auxiliar==null) {
+						padre.hijoIzquierdo=nuevo;
+						return;
+					}	
+				}
+				else {
+					auxiliar=auxiliar.hijoDerecho;
+					if(auxiliar==null) {
+						padre.hijoDerecho=nuevo;
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	//Método para recorrer el árbol PreOrden
+	public void preOrden(NodoArbol r) {
+		
+		if(r!=null) {
+			System.out.println(r.traerDatoN());
+			preOrden(r.hijoIzquierdo);
+			preOrden(r.hijoDerecho);
+			
+		}
+	}
+	
+	//Método para recorrer el árbol InOrden
+	public void inOrden(NodoArbol r) {
+		
+		if(r!=null) {
+			inOrden(r.hijoIzquierdo);
+			System.out.println(r.traerDatoN());
+			inOrden(r.hijoDerecho);
+		}
+	}
+	
+	//Método para recorrer el árbol PostOrden
+	public void postOrden(NodoArbol r) {
+		
+		if(r!=null) {
+			postOrden(r.hijoIzquierdo);
+			postOrden(r.hijoDerecho);
+			System.out.println(r.traerDatoN());
+		}
+		
+	}
+	
+	
+	public NodoArbol traerRaiz() {
+		return(raiz);
+	}
+}
+
+
+public class ArbolBinario {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArbolBin arbolito = new ArbolBin();
+		BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+		
+		int elemento=0, op=0, cont=0;
+		String nombre=null;
+		boolean leido;
+		
+		do {
+			do {
+				try {
+					System.out.println("Introduce la opcion: \n1.Insertar Nodo. \n2.preOrden \n3.inOrden \n4.posOrden \n5.Salir");
+					op=Integer.parseInt(br.readLine());
+					leido=true;
+					
+					while(op>5||op<0) {
+						System.out.println("Introduce una opcion valida: \n1.Insertar Nodo. \n2.Salir");
+						op=Integer.parseInt(br.readLine());
+					}
+					
+				}
+				catch(IOException er) {
+					System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+					leido=false;
+				}
+				
+				catch(NumberFormatException er) {
+					System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+					leido=false;
+				}
+			}
+			while(leido=false);
+			
+			if(op==1) {
+				/*do {
+					try {
+						System.out.println("Introduce el nombre del nodo: ");
+						nombre=br.readLine();
+						leido=true;
+					}
+					catch(IOException er) {
+						System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+						leido=false;
+					}
+				}
+				while(leido=false);*/
+				
+				if(cont==0) {
+					do {
+						try {
+							System.out.println("Introduce la clave de la raiz del arbol: ");
+							elemento=Integer.parseInt(br.readLine());
+							leido=true;
+						}
+						catch(IOException er) {
+							System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+							leido=false;
+						}
+						
+						catch(NumberFormatException er) {
+							System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+							leido=false;
+						}
+					}
+					while(leido=false);	
+				}
+				else{
+					do {
+						try {
+							System.out.println("Introduce la clave del nodo: ");
+							elemento=Integer.parseInt(br.readLine());
+							leido=true;
+						}
+						catch(IOException er) {
+							System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+							leido=false;
+						}
+						
+						catch(NumberFormatException er) {
+							System.out.println("Opps... hubo un error de entrada. Error: "+er+" Intente denuevo.");
+							leido=false;
+						}
+					}
+					while(leido=false);	
+				}
+				
+				cont=cont+1;
+				
+				arbolito.agregarNodo(elemento);//, nombre
+			}
+			else if(op==2) {
+				System.out.println("Recorrido PreOrden: \n");
+				if(arbolito.traerRaiz()!=null) { //!arbolito.estaVacio()
+					arbolito.preOrden(arbolito.traerRaiz());
+				}
+				else {
+					System.out.println("El árbol esta vacio. ");
+				}
+				
+			}
+			else if(op==3) {
+				System.out.println("Recorrido InOrden: \n");
+				if(arbolito.traerRaiz()!=null) { //!arbolito.estaVacio()
+					arbolito.inOrden(arbolito.traerRaiz());
+				}
+				else {
+					System.out.println("El árbol esta vacio. ");
+				}
+				
+			}
+			else if(op==4) {
+				System.out.println("Recorrido PostOrden: \n");
+				if(arbolito.traerRaiz()!=null) { //!arbolito.estaVacio()
+					arbolito.postOrden(arbolito.traerRaiz());
+				}
+				else {
+					System.out.println("El árbol esta vacio. ");
+				}
+				
+			}
+			
+		}while(op==0||op==1||op==2||op==3||op==4);
+		
+		
+		
+	}
+
+}
